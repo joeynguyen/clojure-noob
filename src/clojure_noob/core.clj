@@ -76,6 +76,28 @@
 (receive-treasure-coordinates {:latitude 47.39 :longitude 65.17})
 (println)
 
+;;; anonymous functions
+((fn [x] (* x 3)) 8)
+((fn [x y] (* x 3 y)) 5 4)
+;;; anonymous functions - shorthand
+;;; % indicates the argument passed to the function
+(#(* % 6) 7)
+;;; if your anonymous function takes multiple arguments
+;;; you can distinguish them like this: %1, %2, %3, etc
+(#(str %1 " and " %2 " are delicious") "cornbread" "yams")
+
+;;; closures and returning functions
+(defn inc-maker
+  "Create a custom incrementor"
+  [inc-by]
+  #(+ % inc-by)
+)
+
+(def inc3 (inc-maker 3))
+(println (inc3 7))
+(println)
+
+
 
 ;;; root function
 (defn -main
