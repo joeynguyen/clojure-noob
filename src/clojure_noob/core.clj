@@ -172,3 +172,28 @@
   {:human human
     :critter critter})
 (map unify-diet-data human-consumption critter-consumption)
+
+(def sum #(reduce + %))
+(def avg #(/ (sum %) (count %)))
+(sum [3 4 5])
+(avg [3 4 5])
+(defn stats
+  [numbers]
+  (map #(% numbers) [sum count avg]))
+(stats [3 4 10])
+(stats [80 1 44 13 6])
+
+(def identities
+  [{:alias "Batman" :real "Bruce Wayne"}
+    {:alias "Spider-Man" :real "Peter Parker"}
+    {:alias "Santa" :real "Your mom"}
+    {:alias "Easter Bunny" :real "Your dad"}])
+
+(map :alias identities)
+(map :real identities)
+
+;;; root function
+(defn -main [& args]
+  (do
+    (println "I'm a little teapot!")
+    (println "Hi there!")))
