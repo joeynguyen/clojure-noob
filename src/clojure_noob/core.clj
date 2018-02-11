@@ -233,3 +233,12 @@
 ; uses `and` to first check whether the condition (> (:critter %) 3) is true,
 ; and then returns the entry when the condition is indeed true
 (some #(and (> (:critter %) 3) %) food-journal)
+
+; `sort` sorts elements in ascending order
+(sort [3 1 4 2])
+
+; for more complicated sorts, use `sort-by`
+(sort-by count ["aaa", "c", "bb"])
+
+; `concat` appends the members of one sequence to the end of another
+(concat [1 2] [3 4])
