@@ -219,3 +219,17 @@
 ; get just February
 (take-while #(< (:month %) 3)
   (drop-while #(< (:month %) 2) food-journal))
+
+; `filter` can end up processing all of your data, which isn’t always necessary.
+; Because `food-journal` is already sorted by date, we know that `drop-while`
+; will return the data we want without having to examine any of
+; the data we won’t need. Therefore, `drop-while` can be more efficient.
+(filter #(> (:month %) 2) food-journal)
+
+; `some` checks to see whether a collection contains any values that test true
+(some #(> (:critter %) 5) food-journal) ; nil
+(some #(> (:critter %) 3) food-journal) ; true
+
+; uses `and` to first check whether the condition (> (:critter %) 3) is true,
+; and then returns the entry when the condition is indeed true
+(some #(and (> (:critter %) 3) %) food-journal)
