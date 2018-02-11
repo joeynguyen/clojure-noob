@@ -19,11 +19,11 @@
 (defn x-chop
   "Describe the kind of chop you're inflicting on someone"
   ([name chop-type] ; 2-arity function (2 parameters)
-   (str "I " chop-type " chop " name "! Take that!"))
+    (str "I " chop-type " chop " name "! Take that!"))
   ([name] ; 1-arity function (1 parameters)
-   (x-chop name "karate")) ; function calling itself
+    (x-chop name "karate")) ; function calling itself
   ([] ; 0-arity function (0 parameters)
-   (inc 1))) ; totally different behavior
+    (inc 1))) ; totally different behavior
 
 (println (x-chop "Kanye West" "cross"))
 (println (x-chop "Kanye West"))
@@ -95,24 +95,24 @@
 (println)
 
 (def asym-hobbit-body-parts [{:name "head" :size 3}
-                             {:name "left-eye" :size 1}
-                             {:name "left-ear" :size 1}
-                             {:name "mouth" :size 1}
-                             {:name "nose" :size 1}
-                             {:name "neck" :size 2}
-                             {:name "left-shoulder" :size 3}
-                             {:name "left-upper-arm" :size 3}
-                             {:name "chest" :size 10}
-                             {:name "back" :size 10}
-                             {:name "left-forearm" :size 3}
-                             {:name "abdomen" :size 6}
-                             {:name "left-kidney" :size 1}
-                             {:name "left-hand" :size 2}
-                             {:name "left-knee" :size 2}
-                             {:name "left-thigh" :size 4}
-                             {:name "left-lower-leg" :size 3}
-                             {:name "left-achilles" :size 1}
-                             {:name "left-foot" :size 2}])
+                              {:name "left-eye" :size 1}
+                              {:name "left-ear" :size 1}
+                              {:name "mouth" :size 1}
+                              {:name "nose" :size 1}
+                              {:name "neck" :size 2}
+                              {:name "left-shoulder" :size 3}
+                              {:name "left-upper-arm" :size 3}
+                              {:name "chest" :size 10}
+                              {:name "back" :size 10}
+                              {:name "left-forearm" :size 3}
+                              {:name "abdomen" :size 6}
+                              {:name "left-kidney" :size 1}
+                              {:name "left-hand" :size 2}
+                              {:name "left-knee" :size 2}
+                              {:name "left-thigh" :size 4}
+                              {:name "left-lower-leg" :size 3}
+                              {:name "left-achilles" :size 1}
+                              {:name "left-foot" :size 2}])
 
 (defn matching-part
   [part]
@@ -133,10 +133,42 @@
         (recur remaining
           (into final-body-parts (create-set-matching-parts part)))))))
 
-(symmetrize-body-parts asym-hobbit-body-parts)
+; (symmetrize-body-parts asym-hobbit-body-parts)
 
-;;; root function
-(defn -main [& args]
-  (do
-    (println "I'm a little teapot!")
-    (println "Hi there!")))
+(defn better-symmetrize-body-parts
+  "Expects a seq of maps that have a :name and :size"
+  [asym-body-parts]
+  (reduce (fn [final-body-parts part]
+            (into final-body-parts (create-set-matching-parts part)))
+          []
+          asym-body-parts))
+
+; (better-symmetrize-body-parts asym-hobbit-body-parts)
+
+(defn hit
+  [asym-body-parts]
+  (let [sym-parts (better-symmetrize-body-parts asym-body-parts)
+        body-part-size-sum (reduce + (map :size sym-parts))
+        target (rand-int body-part-size-sum)]
+    (loop [[part & remaining] sym-parts
+          accumulated-size (:size part)]
+      (println (str "target: " target " accumulated-size: " accumulated-size " part: " part))
+      (if (> accumulated-size target)
+        part
+        (recur remaining (+ accumulated-size (:size (first remaining))))))))
+
+(hit asym-hobbit-body-parts)
+
+; (def body-part-size
+;   (reduce + (map :size (better-symmetrize-body-parts asym-hobbit-body-parts))))
+
+; (println (rand body-part-size))
+
+(def human-consumption  [8.1 7.3 6.6 5.0])
+(def critter-consumption [0.0 0.2 0.3 1.1])
+
+(defn unify-diet-data
+  [human critter]
+  {:human human
+    :critter critter})
+(map unify-diet-data human-consumption critter-consumption)
