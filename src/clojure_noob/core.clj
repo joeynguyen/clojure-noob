@@ -277,9 +277,29 @@
 
 (take 3 (repeatedly (fn [] (rand-int 10))))
 
+; into
+(map identity {:sunlight-reaction "Glitter!"} )
+; Here, the `map` function returns a sequential data
+; structure after being given a map data structure,
+; and `into` converts the seq back into a map.
+(into {} (map identity {:sunlight-reaction "Glitter!"} ))
 
+; `map` returns a seq, and we use `into` in the second
+; line to convert the result back to a vector.
+(map identity [:garlic :sesame-oil :fried-eggs])
+(into [] (map identity [:garlic :sesame-oil :fried-eggs]))
 
+; we start with a vector with two identical entries,
+; `map` converts it to a list, and then we use `into`
+; to stick the values into a set, which contains only
+; unique values
+(map identity [:garlic-clove :garlic-clove])
+; => (:garlic-clove :garlic-clove)
+(into #{} (map identity [:garlic-clove :garlic-clove]))
+; => #{:garlic-clove}
 
+(into {:favorite-emotion "gloomy"} [[:sunlight-reaction "Glitter!"]])
+; => {:favorite-emotion "gloomy" :sunlight-reaction "Glitter!"}
 
-
-
+(into ["cherry"] '("pine" "spruce"))
+; => ["cherry" "pine" "spruce"]
